@@ -1,0 +1,46 @@
+{
+  "@@locale": "bn",
+
+  "appTitle": "এনিক্স স্টার্টার",
+
+  "login": "লগ ইন",
+  "register": "নিবন্ধন",
+  "forgotPassword": "পাসওয়ার্ড ভুলে গেছেন?",
+  "resetPassword": "পাসওয়ার্ড রিসেট করুন",
+  "fullName": "পূর্ণ নাম",
+  "email": "ইমেইল",
+  "password": "পাসওয়ার্ড",
+  "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+  "signInWithGoogle": "গুগল দিয়ে সাইন ইন",
+  "signInWithApple": "অ্যাপল দিয়ে সাইন ইন",
+  "signOut": "সাইন আউট",
+  "dontHaveAccount": "অ্যাকাউন্ট নেই? নিবন্ধন করুন",
+  "alreadyHaveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে? লগ ইন",
+  "sendResetLink": "রিসেট লিংক পাঠান",
+  "resetLinkSent": "একটি পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে।",
+
+  "settings": "সেটিংস",
+  "theme": "থিম",
+  "language": "ভাষা",
+  "typography": "টাইপোগ্রাফি",
+  "authOptions": "প্রমাণীকরণ বিকল্প",
+  "socialLoginEnabled": "সোশ্যাল লগইন",
+  "googleLoginEnabled": "গুগল লগইন",
+  "appleLoginEnabled": "অ্যাপল লগইন",
+  "emailPasswordEnabled": "ইমেইল / পাসওয়ার্ড",
+  "iapEnabled": "ইন-অ্যাপ ক্রয়",
+  "appFlavor": "অ্যাপ ফ্লেভার",
+  "enabled": "সক্রিয়",
+  "disabled": "নিষ্ক্রিয়",
+
+  "offlineBanner": "আপনি অফলাইনে আছেন। কিছু ফিচার অনুপলব্ধ।",
+  "offlineActionBlocked": "এই কাজটির জন্য ইন্টারনেট সংযোগ প্রয়োজন।",
+
+  "missingKeysTitle": "কনফিগারেশন প্রয়োজন",
+  "missingKeysBody": "Supabase URL এবং/অথবা Anon Key সেট করা নেই।\n\n--dart-define দিয়ে পাঠান:\n  --dart-define=SUPABASE_URL=https://xxx.supabase.co\n  --dart-define=SUPABASE_ANON_KEY=your-anon-key",
+
+  "retry": "পুনরায় চেষ্টা",
+  "noData": "এখানে এখনো কিছুই নেই।",
+  "unknownError": "কিছু ভুল হয়েছে। আবার চেষ্টা করুন।",
+  "welcomeUser": "স্বাগতম, {name}!"
+}

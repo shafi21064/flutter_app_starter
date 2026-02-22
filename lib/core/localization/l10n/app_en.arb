@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Enyx Starter",
+
+  "login": "Log In",
+  "register": "Register",
+  "forgotPassword": "Forgot Password?",
+  "resetPassword": "Reset Password",
+  "fullName": "Full Name",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "signInWithGoogle": "Sign in with Google",
+  "signInWithApple": "Sign in with Apple",
+  "signOut": "Sign Out",
+  "dontHaveAccount": "Don't have an account? Register",
+  "alreadyHaveAccount": "Already have an account? Log In",
+  "sendResetLink": "Send Reset Link",
+  "resetLinkSent": "A password-reset link has been sent to your email.",
+
+  "settings": "Settings",
+  "theme": "Theme",
+  "language": "Language",
+  "typography": "Typography",
+  "authOptions": "Authentication Options",
+  "socialLoginEnabled": "Social Login",
+  "googleLoginEnabled": "Google Login",
+  "appleLoginEnabled": "Apple Login",
+  "emailPasswordEnabled": "Email / Password",
+  "iapEnabled": "In-App Purchases",
+  "appFlavor": "App Flavor",
+  "enabled": "enabled",
+  "disabled": "disabled",
+
+  "offlineBanner": "You are offline. Some features are unavailable.",
+  "offlineActionBlocked": "This action requires an internet connection.",
+
+  "missingKeysTitle": "Configuration Required",
+  "missingKeysBody": "Supabase URL and/or Anon Key are not set.\n\nPass them via --dart-define:\n  --dart-define=SUPABASE_URL=https://xxx.supabase.co\n  --dart-define=SUPABASE_ANON_KEY=your-anon-key",
+
+  "retry": "Retry",
+  "noData": "Nothing here yet.",
+  "unknownError": "Something went wrong. Please try again.",
+  "welcomeUser": "Welcome, {name}!",
+  "@welcomeUser": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

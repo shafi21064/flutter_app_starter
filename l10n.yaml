@@ -1,0 +1,9 @@
+# ──────────────────────────────────────────────────────────────
+# l10n.yaml – Flutter gen-l10n configuration
+# Run `flutter gen-l10n` or let the build system generate
+# the AppLocalizations class from lib/core/localization/l10n/*.arb
+# ──────────────────────────────────────────────────────────────
+
+arb-dir: lib/core/localization/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
