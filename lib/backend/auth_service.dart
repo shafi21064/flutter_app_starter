@@ -197,7 +197,7 @@ class AuthService {
         provider,
         // The redirect URL must match the deep-link scheme configured
         // in Supabase dashboard and your platform manifests/plist.
-        redirectTo: 'com.enyx.starter://login-callback',
+        redirectTo: Env.oauthRedirectUrl,
       );
       return const Success(null);
     } catch (e, st) {

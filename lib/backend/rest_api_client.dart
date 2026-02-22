@@ -29,12 +29,21 @@ final restApiClientProvider = Provider<RestApiClient>((ref) {
 
 class RestApiClient {
   RestApiClient() {
+    final baseUrl = Env.apiBaseUrl;
     _dio = Dio(BaseOptions(
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
       // Do NOT set a global content-type – let Dio infer it for
       // multipart/form-data uploads.
     ));
+
+    if (baseUrl.isEmpty) {
+      Log.w(
+        'RestApiClient initialized with empty API base URL. '
+        'Set API_BASE_URL via --dart-define or .env.',
+      );
+    }
 
     if (Env.enableHttpLogs) {
       _dio.interceptors.add(LogInterceptor(

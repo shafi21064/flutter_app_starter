@@ -78,6 +78,14 @@ class HomeView extends ConsumerWidget {
                 ),
               ],
               Gap(AppSizes.spacingXl),
+              if (user != null) ...[
+                OutlinedButton.icon(
+                  onPressed: () => context.push(AppRoutes.profilePath(user.id)),
+                  icon: const Icon(Icons.person),
+                  label: const Text('Profile'),
+                ),
+                Gap(AppSizes.spacingMd),
+              ],
               ElevatedButton.icon(
                 onPressed: () async {
                   final result =
@@ -98,4 +106,3 @@ class HomeView extends ConsumerWidget {
     );
   }
 }
-

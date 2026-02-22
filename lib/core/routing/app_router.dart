@@ -25,6 +25,7 @@ import '../../features/auth/presentation/view/login_view.dart';
 import '../../features/auth/presentation/view/register_view.dart';
 import '../../features/boot/presentation/view/missing_keys_view.dart';
 import '../../features/home/presentation/view/home_view.dart';
+import '../../features/profile/presentation/view/profile_view.dart';
 import '../../features/settings/presentation/view/settings_view.dart';
 
 /// Named route paths for type-safe navigation.
@@ -34,7 +35,10 @@ class AppRoutes {
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   static const String home = '/home';
+  static const String profile = '/profile/:userId';
   static const String settings = '/settings';
+
+  static String profilePath(String userId) => '/profile/$userId';
 }
 
 /// GoRouter provider — watches auth state for reactive redirects.
@@ -89,6 +93,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const ForgotPasswordView(),
       ),
       GoRoute(path: AppRoutes.home, builder: (_, _) => const HomeView()),
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (_, state) => ProfileView(
+          userId: state.pathParameters['userId'] ?? '',
+        ),
+      ),
       GoRoute(
         path: AppRoutes.settings,
         builder: (_, _) => const SettingsView(),
