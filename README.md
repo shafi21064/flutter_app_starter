@@ -1,93 +1,99 @@
-# Enyx Flutter Starter Kit 🚀
+# Enyx Flutter Starter Kit
 
-A production-grade, feature-first boilerplate designed for scale, speed, and clean code.
+A production-focused Flutter starter for Supabase auth, feature-first screens, Riverpod state, and reusable liquid-glass UI.
 
-## 🏗 Architecture (Feature-First)
+## Overview
 
-The app follows a **Feature-First** folder structure, ensuring that each feature is self-contained and modular.
+- Feature-first app structure under `lib/features`
+- Core shared modules under `lib/core`
+- Supabase auth + deep-link redirect flow
+- Shell-based bottom tab navigation with smooth transitions
+- Liquid-glass widgets provided via `glovex_liquid_ui`
+- Localization enabled (`en`, `bn`)
 
-### 1. Feature Layer (`lib/features/`)
-Each feature (e.g., `auth`, `profile`) is organized into:
-*   **Domain**: Pure business logic (Entities, Repository interfaces).
-*   **Data**: External data implementations (DTOs, Repository implementations, Data Sources).
-*   **Presentation**: UI components and state management.
-    *   **Controllers**: Riverpod Notifiers that manage state and handle logic. They only communicate with Domain Entities.
-    *   **Views**: Cupertino-styled widgets that observe Controllers.
+## Tech Stack
 
-### 2. Core Layer (`lib/core/`)
-Contains shared infrastructure, utilities, and cross-cutting concerns:
-*   **config**: Environment variables and feature flags.
-*   **connectivity**: Internet connection awareness.
-*   **deep_links**: App-to-app and web-to-app routing.
-*   **localization**: Multi-language support (l10n).
-*   **logging**: Centralized logging system.
-*   **models**: Base/shared models (e.g., `api_model`).
-*   **networking**: Rest API clients (Dio).
-*   **result**: Typed error handling using `Result<T>`.
-*   **routing**: Declarative navigation (GoRouter).
-*   **storage**: Secure and key-value storage.
-*   **theme**: Cupertino tokens and custom styling.
-*   **ui**: Shared atomic widgets and design tokens.
-*   **utils**: General helpers (sizes, haptics, extensions).
-*   **CI/CD**: Automated GitHub Actions for analysis.
+- `flutter_riverpod`
+- `go_router`
+- `supabase_flutter`
+- `dio`
+- `flutter_dotenv`
+- `glovex_liquid_ui`
 
----
+## Project Structure
 
-## 🛠 Tech Stack
+- `lib/features`: feature modules (`auth`, `home`, `profile`, `settings`, `settings_two`, etc.)
+- `lib/core/config`: env, feature flags
+- `lib/core/routing`: router and auth redirect logic
+- `lib/core/ui`: app shell widgets
+- `lib/core/localization`: ARB and generated l10n
+- `lib/backend`: Supabase and API service wrappers
 
-*   **UI**: Full Cupertino (iOS) design system.
-*   **State Management**: [Riverpod](https://riverpod.dev) (The modern standard).
-*   **Navigation**: [GoRouter](https://pub.dev/packages/go_router) (Declarative & URL-based).
-*   **Backend**: [Supabase](https://supabase.com) (Auth, DB, Storage).
-*   **Logic Isolation**: [Freezed](https://pub.dev/packages/freezed) & [JsonSerializable](https://pub.dev/packages/json_serializable) for immutable models.
-*   **Networking**: [Dio](https://pub.dev/packages/dio) with custom interceptors.
-*   **Modern UI Logic**: [Flutter Hooks](https://pub.dev/packages/flutter_hooks) for boilerplate-free widgets.
-*   **Environment**: [flutter_dotenv](https://pub.dev/packages/flutter_dotenv).
+## Environment Setup
 
----
+Create `.env` at project root:
 
-## 🚀 Getting Started
-
-### 1. Configuration
-Create a `.env` file in the root:
 ```env
 FLAVOR=dev
-SUPABASE_URL=your_url
-SUPABASE_ANON_KEY=your_key
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
 OAUTH_REDIRECT_URL=com.enyx.starter://login-callback
 API_BASE_URL=https://api.example.com
 ```
 
-Copy from `.env.example` and replace with your project values.
+Start from `.env.example` and replace values.
 
-### 2. Run the App
+## Run
+
 ```bash
-# Get dependencies
 flutter pub get
-
-# Run code generation
-dart run build_runner build --delete-conflicting-outputs
-
-# Launch
 flutter run
 ```
 
----
+## iOS/macOS Notes
 
-## 🔧 Workflow Guide
+- Ensure deep-link scheme matches `OAUTH_REDIRECT_URL`
+- If pods/desync issues appear:
 
-### Adding a New Feature
-1. Create a folder in `lib/features/<name>`.
-2. Define your **Entity** in `domain/entities/`.
-3. Define your **DTO** in `data/models/` and run `build_runner`.
-4. Implement the **Repository**.
-5. Create a **Controller** in `presentation/controller/` and a **View** in `presentation/view/`.
+```bash
+flutter clean
+flutter pub get
+cd ios && pod install && cd ..
+cd macos && pod install && cd ..
+flutter run
+```
 
-### Handling API Changes
-If an API field changes, only edit the **DTO** mapping logic. Your **Entity** and **View** remain untouched.
+## Routing Model
 
----
+- Auth pages are normal routes (`/login`, `/register`, `/forgot-password`)
+- Main tabs are inside a shell route
+- Bottom nav stays fixed while tab content transitions
+- Route paths are centralized in `lib/core/routing/app_router.dart`
 
-## 📄 Documentation Links
-*   [Freezed Code Gen Guide](FREEZED_GUIDE.md)
-*   [Sizing & Design Tokens](lib/core/utils/app_sizes.dart)
+## Liquid UI Usage
+
+This app consumes `glovex_liquid_ui` from a local path dependency. Update `pubspec.yaml` if you want pub.dev version instead:
+
+```yaml
+glovex_liquid_ui: ^0.1.0
+```
+
+Current local path setup:
+
+```yaml
+glovex_liquid_ui:
+  path: /Users/mac/enyx/packages/enyx_liquid_ui
+```
+
+## Useful Commands
+
+```bash
+flutter analyze
+flutter test
+flutter pub outdated
+```
+
+## References
+
+- `FREEZED_GUIDE.md`
+- `lib/core/utils/app_sizes.dart`
