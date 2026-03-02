@@ -4,7 +4,7 @@
 //           Shows current user info and sign-out button.
 // ──────────────────────────────────────────────────────────────
 
-import 'package:enyx_starter/core/ui/liquid_glass_card.dart';
+import 'package:enyx_starter/core/ui/widgets/liquid_glass/liquid_glass_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -17,6 +17,7 @@ import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_toast.dart';
 import 'package:enyx_starter/core/utils/app_sizes.dart';
 
+import '../../../../core/ui/widgets/liquid_glass/liquid_glass_widgets.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 
 class HomeView extends ConsumerWidget {
@@ -73,40 +74,28 @@ class HomeView extends ConsumerWidget {
               ],
               Gap(AppSizes.spacingXl),
               if (user != null) ...[
-                // OutlinedButton.icon(
-                //   onPressed: () => context.push(AppRoutes.profilePath(user.id)),
-                //   icon: const Icon(Icons.person),
-                //   label: Text(l10n.profile),
-                // ),
-                LiquidGlassCard(
-                  // blur: 5,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSizes.spacingXl,
-                    horizontal: AppSizes.spacingLg,
-                  ),
-                  child:  Text(l10n.profile)),
-                Gap(AppSizes.spacingMd),
-                LiquidGlassCard(
-                  blur: 5,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSizes.spacingXl,
-                    horizontal: AppSizes.spacingLg,
-                  ),
-                  child:  Text(l10n.profile)),
-                Gap(AppSizes.spacingMd),
-                LiquidGlassCard(
-                  // blur: 5,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSizes.spacingXl,
-                    horizontal: AppSizes.spacingLg,
-                  ),
-                  child:  Text(l10n.profile)),
+                LiquidGlassSection(
+                  title: l10n.profile,
+                  subtitle: l10n.welcomeUser(displayName),
+                  children: [
+                    LiquidGlassListTile(
+                      title: l10n.profile,
+                      subtitle: user.email,
+                      leading: const Icon(Icons.person_outline),
+                      onTap: () {},
+                    ),
+                    LiquidGlassListTile(
+                      title: l10n.settings,
+                      leading: const Icon(Icons.settings_outlined),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
                 Gap(AppSizes.spacingMd),
               ],
-              ElevatedButton.icon(
+              LiquidGlassButton(
+                label: l10n.signOut,
+                leading: const Icon(Icons.logout),
                 onPressed: () async {
                   final result =
                       await ref.read(authControllerProvider).signOut();
@@ -116,8 +105,6 @@ class HomeView extends ConsumerWidget {
                     failure: (f) => AppToast.error(context, f.message),
                   );
                 },
-                icon: const Icon(Icons.logout),
-                label: Text(l10n.signOut),
               ),
             ],
           ),

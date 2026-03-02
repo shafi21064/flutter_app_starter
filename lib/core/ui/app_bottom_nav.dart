@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../localization/l10n/app_localizations.dart';
 import '../routing/app_router.dart';
-import 'liquid_glass_card.dart';
+import 'widgets/liquid_glass/liquid_glass_widgets.dart';
 
 enum AppBottomNavTab { home, profile, settings }
 
