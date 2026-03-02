@@ -24,7 +24,7 @@ class AppScaffold extends StatelessWidget {
     this.actions,
     this.floatingActionButton,
     this.bottomNavigationBar,
-    this.showAppBar = true,
+    this.showAppBar = false,
   });
 
   final Widget body;
@@ -48,20 +48,25 @@ class AppScaffold extends StatelessWidget {
                   : null,
             )
           : null,
-      child: SafeArea(
-        child: Column(
-          children: [
-            const OfflineBanner(),
-            Expanded(
-              child: Material(
-                // Some widgets like Gap or list tiles might still expect a Material ancestor
-                type: MaterialType.transparency,
-                child: body,
-              ),
+      child: Stack(
+        children: [
+          Image.asset("assets/images/themes/bg.jpg", fit: BoxFit.cover, width: double.infinity, height: double.infinity),
+          SafeArea(
+            child: Column(
+              children: [
+                const OfflineBanner(),
+                Expanded(
+                  child: Material(
+                    // Some widgets like Gap or list tiles might still expect a Material ancestor
+                    type: MaterialType.transparency,
+                    child: body,
+                  ),
+                ),
+                if (bottomNavigationBar != null) ...[bottomNavigationBar!],
+              ],
             ),
-            if (bottomNavigationBar != null) ...[bottomNavigationBar!],
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

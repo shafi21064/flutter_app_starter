@@ -33,7 +33,7 @@ class ThemeKeyNotifier extends StateNotifier<String> {
     _load();
   }
 
-  static const _defaultKey = 'glass_light';
+  static const _defaultKey = 'glass_dark';
   final Ref _ref;
 
   void _load() {

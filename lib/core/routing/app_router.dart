@@ -73,16 +73,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.forgotPassword,
         builder: (_, _) => const ForgotPasswordView(),
       ),
-      GoRoute(path: AppRoutes.home, builder: (_, _) => const HomeView()),
+      GoRoute(
+        path: AppRoutes.home,
+        pageBuilder: (_, state) => const NoTransitionPage(
+          child: HomeView(),
+        ),
+      ),
       GoRoute(
         path: AppRoutes.profile,
-        builder: (_, state) => ProfileView(
-          userId: state.pathParameters['userId'] ?? '',
+        pageBuilder: (_, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: ProfileView(
+            userId: state.pathParameters['userId'] ?? '',
+          ),
         ),
       ),
       GoRoute(
         path: AppRoutes.settings,
-        builder: (_, _) => const SettingsView(),
+        pageBuilder: (_, state) => const NoTransitionPage(
+          child: SettingsView(),
+        ),
       ),
     ],
   );

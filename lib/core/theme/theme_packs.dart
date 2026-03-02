@@ -12,15 +12,15 @@ import 'tokens.dart';
 
 /// Registry of available theme packs.
 final Map<String, ThemePack> themePacks = {
-  'glass_light': ThemePack(
-    label: 'Glass Light',
-    cupertinoBuilder: _glassLightCupertino,
-  ),
+  // 'glass_light': ThemePack(
+  //   label: 'Glass Light',
+  //   cupertinoBuilder: _glassLightCupertino,
+  // ),
   'glass_dark': ThemePack(
     label: 'Glass Dark',
     cupertinoBuilder: _glassDarkCupertino,
   ),
-  'emerald': ThemePack(label: 'Emerald', cupertinoBuilder: _emeraldCupertino),
+  // 'emerald': ThemePack(label: 'Emerald', cupertinoBuilder: _emeraldCupertino),
 };
 
 class ThemePack {

@@ -4,15 +4,14 @@
 //           Shows current user info and sign-out button.
 // ──────────────────────────────────────────────────────────────
 
+import 'package:enyx_starter/core/ui/liquid_glass_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:enyx_starter/core/config/env.dart';
-import 'package:enyx_starter/core/routing/app_router.dart';
 import 'package:enyx_starter/core/ui/app_bottom_nav.dart';
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_toast.dart';
@@ -74,11 +73,37 @@ class HomeView extends ConsumerWidget {
               ],
               Gap(AppSizes.spacingXl),
               if (user != null) ...[
-                OutlinedButton.icon(
-                  onPressed: () => context.push(AppRoutes.profilePath(user.id)),
-                  icon: const Icon(Icons.person),
-                  label: Text(l10n.profile),
-                ),
+                // OutlinedButton.icon(
+                //   onPressed: () => context.push(AppRoutes.profilePath(user.id)),
+                //   icon: const Icon(Icons.person),
+                //   label: Text(l10n.profile),
+                // ),
+                LiquidGlassCard(
+                  // blur: 5,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSizes.spacingXl,
+                    horizontal: AppSizes.spacingLg,
+                  ),
+                  child:  Text(l10n.profile)),
+                Gap(AppSizes.spacingMd),
+                LiquidGlassCard(
+                  blur: 5,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSizes.spacingXl,
+                    horizontal: AppSizes.spacingLg,
+                  ),
+                  child:  Text(l10n.profile)),
+                Gap(AppSizes.spacingMd),
+                LiquidGlassCard(
+                  // blur: 5,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSizes.spacingXl,
+                    horizontal: AppSizes.spacingLg,
+                  ),
+                  child:  Text(l10n.profile)),
                 Gap(AppSizes.spacingMd),
               ],
               ElevatedButton.icon(
