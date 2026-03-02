@@ -9,17 +9,9 @@
 //   # Dev (no Supabase – shows MissingKeysPage):
 //   flutter run
 //
-//   # Dev with Supabase:
-//   flutter run \
-//     --dart-define=FLAVOR=dev \
-//     --dart-define=SUPABASE_URL=https://xxx.supabase.co \
-//     --dart-define=SUPABASE_ANON_KEY=your-anon-key
-//
-//   # Prod build:
-//   flutter build apk \
-//     --dart-define=FLAVOR=prod \
-//     --dart-define=SUPABASE_URL=... \
-//     --dart-define=SUPABASE_ANON_KEY=...
+//   # Dev/Prod with Supabase:
+//   # 1. Fill values in .env
+//   # 2. flutter run
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter/material.dart';

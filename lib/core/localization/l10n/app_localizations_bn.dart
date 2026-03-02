@@ -12,6 +12,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get appTitle => 'এনিক্স স্টার্টার';
 
   @override
+  String get home => 'হোম';
+
+  @override
   String get login => 'লগ ইন';
 
   @override
@@ -56,6 +59,10 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get resetLinkSent =>
       'একটি পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে।';
+
+  @override
+  String get verifyEmailAfterRegister =>
+      'রেজিস্ট্রেশন সফল হয়েছে। লগইন করার আগে আপনার ইমেইলে গিয়ে অ্যাকাউন্ট ভেরিফাই করুন।';
 
   @override
   String get settings => 'সেটিংস';
@@ -107,7 +114,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get missingKeysBody =>
-      'Supabase URL এবং/অথবা Anon Key সেট করা নেই।\n\n--dart-define দিয়ে পাঠান:\n  --dart-define=SUPABASE_URL=https://xxx.supabase.co\n  --dart-define=SUPABASE_ANON_KEY=your-anon-key';
+      'Supabase URL এবং/অথবা Anon Key সেট করা নেই।\n\n.env ফাইলে সেট করুন:\n  SUPABASE_URL=https://xxx.supabase.co\n  SUPABASE_ANON_KEY=your-anon-key';
 
   @override
   String get retry => 'পুনরায় চেষ্টা';
@@ -117,6 +124,42 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get unknownError => 'কিছু ভুল হয়েছে। আবার চেষ্টা করুন।';
+
+  @override
+  String get defaultUserName => 'ইউজার';
+
+  @override
+  String get profile => 'প্রোফাইল';
+
+  @override
+  String get profileNoBio => 'এখনও বায়ো নেই';
+
+  @override
+  String get profileBioHeader => 'বায়ো';
+
+  @override
+  String get profileMissingUserId => 'ইউজার আইডি নেই';
+
+  @override
+  String errorWithMessage(String message) {
+    return 'ত্রুটি: $message';
+  }
+
+  @override
+  String get configureIapHint =>
+      'feature_flags.dart বা remote config থেকে enableIap সেট করুন।';
+
+  @override
+  String get devTools => 'ডেভ টুলস';
+
+  @override
+  String get simulateOffline => 'অফলাইন সিমুলেট করুন';
+
+  @override
+  String get currentlyOnline => 'এখন অনলাইনে';
+
+  @override
+  String get currentlyOffline => 'এখন অফলাইনে';
 
   @override
   String welcomeUser(String name) {

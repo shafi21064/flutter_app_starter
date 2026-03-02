@@ -43,11 +43,13 @@ final deepLinkServiceProvider = Provider<DeepLinkService>((ref) {
 
 class DeepLinkService {
   StreamSubscription<Uri>? _sub;
+  bool _isListening = false;
 
   /// Start listening for deep links.
   /// Safe to call even when Supabase is not initialized – will
   /// simply log and ignore links in that case.
   void startListening() {
+    if (_isListening) return;
     if (!Env.hasSupabaseKeys) {
       Log.w('DeepLinkService: Supabase keys missing – skipping listener.');
       return;
@@ -74,12 +76,20 @@ class DeepLinkService {
     }).catchError((Object e) {
       Log.e('Failed to get initial deep link', error: e);
     });
+    _isListening = true;
   }
 
-  void _handleLink(Uri uri) {
+  Future<void> _handleLink(Uri uri) async {
     try {
       // Supabase SDK will parse the fragment/query for tokens.
-      Supabase.instance.client.auth.getSessionFromUrl(uri);
+      await Supabase.instance.client.auth.getSessionFromUrl(uri);
+    } on AuthException catch (e) {
+      // Common in email-verification flows when no PKCE flow state exists.
+      if (e.toString().contains('flow_state_not_found')) {
+        Log.w('DeepLinkService: ignored flow_state_not_found for uri: $uri');
+        return;
+      }
+      Log.e('Supabase deep-link auth exception', error: e);
     } catch (e, st) {
       Log.e('Supabase deep-link handling failed', error: e, stack: st);
     }
@@ -87,5 +97,6 @@ class DeepLinkService {
 
   void dispose() {
     _sub?.cancel();
+    _isListening = false;
   }
 }

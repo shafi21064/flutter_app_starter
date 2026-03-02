@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Enyx Starter'**
   String get appTitle;
 
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
   /// No description provided for @login.
   ///
   /// In en, this message translates to:
@@ -193,6 +199,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A password-reset link has been sent to your email.'**
   String get resetLinkSent;
+
+  /// No description provided for @verifyEmailAfterRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration successful. Please check your email and verify your account before logging in.'**
+  String get verifyEmailAfterRegister;
 
   /// No description provided for @settings.
   ///
@@ -293,7 +305,7 @@ abstract class AppLocalizations {
   /// No description provided for @missingKeysBody.
   ///
   /// In en, this message translates to:
-  /// **'Supabase URL and/or Anon Key are not set.\n\nPass them via --dart-define:\n  --dart-define=SUPABASE_URL=https://xxx.supabase.co\n  --dart-define=SUPABASE_ANON_KEY=your-anon-key'**
+  /// **'Supabase URL and/or Anon Key are not set.\n\nSet them in your .env file:\n  SUPABASE_URL=https://xxx.supabase.co\n  SUPABASE_ANON_KEY=your-anon-key'**
   String get missingKeysBody;
 
   /// No description provided for @retry.
@@ -313,6 +325,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get unknownError;
+
+  /// No description provided for @defaultUserName.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get defaultUserName;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @profileNoBio.
+  ///
+  /// In en, this message translates to:
+  /// **'No bio yet'**
+  String get profileNoBio;
+
+  /// No description provided for @profileBioHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'BIO'**
+  String get profileBioHeader;
+
+  /// No description provided for @profileMissingUserId.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing user id'**
+  String get profileMissingUserId;
+
+  /// No description provided for @errorWithMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String errorWithMessage(String message);
+
+  /// No description provided for @configureIapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure enableIap via feature_flags.dart or remote config.'**
+  String get configureIapHint;
+
+  /// No description provided for @devTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev Tools'**
+  String get devTools;
+
+  /// No description provided for @simulateOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate Offline'**
+  String get simulateOffline;
+
+  /// No description provided for @currentlyOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently online'**
+  String get currentlyOnline;
+
+  /// No description provided for @currentlyOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently offline'**
+  String get currentlyOffline;
 
   /// No description provided for @welcomeUser.
   ///

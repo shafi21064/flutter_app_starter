@@ -6,7 +6,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 
+import '../../../../core/ui/app_bottom_nav.dart';
 import '../../../../core/ui/app_scaffold.dart';
 import '../../../../core/utils/app_sizes.dart';
 import '../controller/profile_controller.dart';
@@ -32,14 +34,18 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final proxfileState = ref.watch(profileControllerProvider);
+    final profileState = ref.watch(profileControllerProvider);
+    final l10n = AppLocalizations.of(context)!;
     return AppScaffold(
-      title: 'Profile',
+      title: l10n.profile,
+      bottomNavigationBar:
+          const AppBottomNav(currentTab: AppBottomNavTab.profile),
       body: widget.userId.isEmpty
-          ? const Center(child: Text('Missing user id'))
+          ? Center(child: Text(l10n.profileMissingUserId))
           : profileState.when(
               loading: () => const Center(child: CupertinoActivityIndicator()),
-              error: (err, _) => Center(child: Text('Error: $err')),
+              error: (err, _) =>
+                  Center(child: Text(l10n.errorWithMessage(err.toString()))),
               data: (profile) => SingleChildScrollView(
                 padding: EdgeInsets.all(AppSizes.pagePadding),
                 child: Column(
@@ -59,7 +65,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       style: const TextStyle(color: CupertinoColors.systemGrey),
                     ),
                     Gap(AppSizes.spacingXl),
-                    _BioSection(bio: profile.bio ?? 'No bio yet'),
+                    _BioSection(bio: profile.bio ?? l10n.profileNoBio),
                   ],
                 ),
               ),
@@ -74,6 +80,7 @@ class _BioSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(AppSizes.spacingMd),
       decoration: BoxDecoration(
@@ -83,8 +90,8 @@ class _BioSection extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'BIO',
+          Text(
+            l10n.profileBioHeader,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
           Gap(AppSizes.spacingXs),

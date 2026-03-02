@@ -21,37 +21,49 @@ class AuthController {
 
   Future<Result<void>> signIn(String email, String password) async {
     _ref.read(authLoadingProvider.notifier).state = true;
-    final result = await _auth.signIn(email: email, password: password);
-    _ref.read(authLoadingProvider.notifier).state = false;
-    return result.map((_) {});
+    try {
+      final result = await _auth.signIn(email: email, password: password);
+      return result.map((_) {});
+    } finally {
+      _ref.read(authLoadingProvider.notifier).state = false;
+    }
   }
 
   Future<Result<void>> signUp(String email, String password) async {
     _ref.read(authLoadingProvider.notifier).state = true;
-    final result = await _auth.signUp(email: email, password: password);
-    _ref.read(authLoadingProvider.notifier).state = false;
-    return result.map((_) {});
+    try {
+      final result = await _auth.signUp(email: email, password: password);
+      return result.map((_) {});
+    } finally {
+      _ref.read(authLoadingProvider.notifier).state = false;
+    }
   }
 
   Future<Result<void>> resetPassword(String email) async {
     _ref.read(authLoadingProvider.notifier).state = true;
-    final result = await _auth.resetPassword(email);
-    _ref.read(authLoadingProvider.notifier).state = false;
-    return result;
+    try {
+      return await _auth.resetPassword(email);
+    } finally {
+      _ref.read(authLoadingProvider.notifier).state = false;
+    }
   }
 
   Future<Result<void>> signInWithGoogle() async {
     _ref.read(authLoadingProvider.notifier).state = true;
-    final result = await _auth.signInWithGoogle();
-    _ref.read(authLoadingProvider.notifier).state = false;
-    return result;
+    try {
+      return await _auth.signInWithGoogle();
+    } finally {
+      _ref.read(authLoadingProvider.notifier).state = false;
+    }
   }
 
   Future<Result<void>> signInWithApple() async {
     _ref.read(authLoadingProvider.notifier).state = true;
-    final result = await _auth.signInWithApple();
-    _ref.read(authLoadingProvider.notifier).state = false;
-    return result;
+    try {
+      return await _auth.signInWithApple();
+    } finally {
+      _ref.read(authLoadingProvider.notifier).state = false;
+    }
   }
 
   Future<Result<void>> signOut() async {

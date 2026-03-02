@@ -46,11 +46,12 @@ class RegisterView extends HookConsumerWidget {
 
       if (!context.mounted) return;
       result.when(
-        success: (_) {
-          AppToast.success(context, l10n.register);
-          context.go(AppRoutes.home);
+        success: (_) async {
+          await AppToast.success(context, l10n.verifyEmailAfterRegister);
+          if (!context.mounted) return;
+          context.go(AppRoutes.login);
         },
-        failure: (f) => AppToast.error(context, f.message),
+        failure: (f) async => AppToast.error(context, f.message),
       );
     }
 

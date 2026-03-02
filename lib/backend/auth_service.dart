@@ -98,7 +98,12 @@ class AuthService {
     }
 
     try {
-      final res = await _auth.signUp(email: email, password: password);
+      final res = await _auth.signUp(
+        email: email,
+        password: password,
+        // Ensures email confirmation link redirects back to the app.
+        emailRedirectTo: Env.oauthRedirectUrl,
+      );
       if (res.user == null) {
         return const Failure('Sign-up failed – no user returned',
             kind: FailureKind.auth);
@@ -152,7 +157,11 @@ class AuthService {
     if (off != null) return off;
 
     try {
-      await _auth.resetPasswordForEmail(email);
+      await _auth.resetPasswordForEmail(
+        email,
+        // Ensures password reset flow redirects back to the app.
+        redirectTo: Env.oauthRedirectUrl,
+      );
       return const Success(null);
     } on AuthException catch (e) {
       return Failure(e.message, kind: FailureKind.auth, exception: e);

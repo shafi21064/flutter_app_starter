@@ -50,33 +50,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: AppRoutes.home,
     refreshListenable: authNotifier,
     redirect: (context, state) {
-      // 1. Missing Supabase keys → show config screen.
-      if (!Env.hasSupabaseKeys) {
-        if (state.matchedLocation != AppRoutes.missingKeys) {
-          return AppRoutes.missingKeys;
-        }
-        return null;
-      }
-
-      final isLoggedIn = Supabase.instance.client.auth.currentSession != null;
-      final isOnAuthPage =
-          state.matchedLocation == AppRoutes.login ||
-          state.matchedLocation == AppRoutes.register ||
-          state.matchedLocation == AppRoutes.forgotPassword;
-
-      // 2. Not logged in → redirect to login (unless already there).
-      if (!isLoggedIn &&
-          !isOnAuthPage &&
-          state.matchedLocation != AppRoutes.missingKeys) {
-        return AppRoutes.login;
-      }
-
-      // 3. Logged in but on auth page → redirect to home.
-      if (isLoggedIn && isOnAuthPage) {
-        return AppRoutes.home;
-      }
-
-      return null; // no redirect
+      final isLoggedIn = Env.hasSupabaseKeys
+          ? Supabase.instance.client.auth.currentSession != null
+          : false;
+      return appRedirectLogic(
+        hasSupabaseKeys: Env.hasSupabaseKeys,
+        isLoggedIn: isLoggedIn,
+        matchedLocation: state.matchedLocation,
+      );
     },
     routes: [
       GoRoute(
@@ -106,6 +87,38 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
+
+String? appRedirectLogic({
+  required bool hasSupabaseKeys,
+  required bool isLoggedIn,
+  required String matchedLocation,
+}) {
+  // 1. Missing Supabase keys → show config screen.
+  if (!hasSupabaseKeys) {
+    if (matchedLocation != AppRoutes.missingKeys) {
+      return AppRoutes.missingKeys;
+    }
+    return null;
+  }
+
+  final isOnAuthPage = matchedLocation == AppRoutes.login ||
+      matchedLocation == AppRoutes.register ||
+      matchedLocation == AppRoutes.forgotPassword;
+
+  // 2. Not logged in → redirect to login (unless already there).
+  if (!isLoggedIn &&
+      !isOnAuthPage &&
+      matchedLocation != AppRoutes.missingKeys) {
+    return AppRoutes.login;
+  }
+
+  // 3. Logged in but on auth page → redirect to home.
+  if (isLoggedIn && isOnAuthPage) {
+    return AppRoutes.home;
+  }
+
+  return null; // no redirect
+}
 
 /// Listenable that fires when the Supabase auth session changes,
 /// causing GoRouter to re-evaluate its redirect logic.

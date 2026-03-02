@@ -8,13 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 
-import '../../../../core/config/feature_flags.dart';
-import '../../../../core/config/env.dart';
-import '../../../../core/connectivity/connectivity_controller.dart';
-import '../../../../core/localization/locale_controller.dart';
 import '../../../../core/theme/theme_controller.dart';
 import '../../../../core/theme/theme_packs.dart';
 import '../../../../core/theme/app_fonts.dart';
+import '../../../../core/ui/app_bottom_nav.dart';
 import '../../../../core/ui/app_scaffold.dart';
 import '../../../../core/utils/app_sizes.dart';
 import '../controller/settings_controller.dart';
@@ -26,17 +23,14 @@ class SettingsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final flags = ref.watch(featureFlagsProvider);
     final currentThemeKey = ref.watch(themeKeyProvider);
     final currentFontKey = ref.watch(fontFamilyProvider);
-    final currentLocale = ref.watch(localeProvider);
     final ctrl = ref.read(settingsControllerProvider);
-    final isOnline = ref.watch(connectivityProvider);
-
-    String flagLabel(bool value) => value ? l10n.enabled : l10n.disabled;
 
     return AppScaffold(
       title: l10n.settings,
+      bottomNavigationBar:
+          const AppBottomNav(currentTab: AppBottomNavTab.settings),
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: AppSizes.spacingSm),
         children: [
@@ -78,96 +72,9 @@ class SettingsView extends ConsumerWidget {
               onTap: () => ctrl.setFontFamily(entry.key),
             );
           }),
-
-          const Divider(),
-
-          // ── Language selector ───────────────────────────────
-          _SectionHeader(l10n.language),
-          ...supportedLocales.map((loc) {
-            final isSelected = loc == currentLocale;
-            return ListTile(
-              title: Text(_localeLabel(loc)),
-              leading: Icon(
-                isSelected
-                    ? Icons.radio_button_checked
-                    : Icons.radio_button_unchecked,
-                color: isSelected ? theme.colorScheme.primary : null,
-              ),
-              onTap: () => ctrl.setLocale(loc),
-            );
-          }),
-
-          const Divider(),
-
-          // ── Auth options (read-only) ────────────────────────
-          _SectionHeader(l10n.authOptions),
-          _FlagTile(
-            l10n.emailPasswordEnabled,
-            flagLabel(flags.enableEmailPasswordLogin),
-          ),
-          _FlagTile(
-            l10n.socialLoginEnabled,
-            flagLabel(flags.enableSocialLogin),
-          ),
-          _FlagTile(
-            l10n.googleLoginEnabled,
-            flagLabel(flags.isGoogleLoginVisible),
-          ),
-          _FlagTile(
-            l10n.appleLoginEnabled,
-            flagLabel(flags.isAppleLoginVisible),
-          ),
-
-          const Divider(),
-
-          // ── IAP ─────────────────────────────────────────────
-          _FlagTile(l10n.iapEnabled, flagLabel(flags.enableIap)),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSizes.spacingMd,
-              vertical: AppSizes.spacingXs,
-            ),
-            child: Text(
-              'Configure enableIap via feature_flags.dart or remote config.',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.disabledColor,
-              ),
-            ),
-          ),
-
-          const Divider(),
-
-          // ── Flavor ──────────────────────────────────────────
-          _FlagTile(l10n.appFlavor, Env.flavor.toUpperCase()),
-
-          // ── Dev-only: test offline banner ───────────────────
-          if (Env.isDev) ...[
-            const Divider(),
-            _SectionHeader('Dev Tools'),
-            SwitchListTile(
-              title: const Text('Simulate Offline'),
-              subtitle: Text(
-                isOnline ? 'Currently online' : 'Currently offline',
-              ),
-              value: !isOnline,
-              onChanged: (_) {
-                // demonstrative only
-              },
-            ),
-          ],
         ],
       ),
     );
-  }
-
-  String _localeLabel(Locale loc) {
-    switch (loc.languageCode) {
-      case 'bn':
-        return 'বাংলা';
-      case 'en':
-      default:
-        return 'English';
-    }
   }
 }
 
@@ -192,21 +99,6 @@ class _SectionHeader extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-    );
-  }
-}
-
-class _FlagTile extends StatelessWidget {
-  const _FlagTile(this.label, this.value);
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      dense: true,
-      title: Text(label),
-      trailing: Text(value, style: Theme.of(context).textTheme.bodyMedium),
     );
   }
 }

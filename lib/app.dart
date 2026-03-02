@@ -39,33 +39,31 @@ class _EnyxStarterAppState extends ConsumerState<EnyxStarterApp> {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeProvider);
     final themeData = ref.watch(themeDataProvider);
+    final width = MediaQuery.sizeOf(context).width;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Update global scale based on width before building the UI.
-        AppSizes.updateScale(constraints.maxWidth);
+    // Update global scale from MediaQuery to avoid mutating layout state
+    // during RenderLayoutBuilder.performLayout.
+    AppSizes.updateScale(width);
 
-        return CupertinoApp.router(
-          title: 'Enyx Starter${Env.appNameSuffix}',
-          debugShowCheckedModeBanner: !Env.isProd,
+    return CupertinoApp.router(
+      title: 'Enyx Starter${Env.appNameSuffix}',
+      debugShowCheckedModeBanner: !Env.isProd,
 
-          // ── Theme ────────────────────────────────────────────
-          theme: themeData,
+      // ── Theme ────────────────────────────────────────────
+      theme: themeData,
 
-          // ── Locale ───────────────────────────────────────────
-          locale: locale,
-          supportedLocales: supportedLocales,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+      // ── Locale ───────────────────────────────────────────
+      locale: locale,
+      supportedLocales: supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
 
-          // ── Router ───────────────────────────────────────────
-          routerConfig: router,
-        );
-      },
+      // ── Router ───────────────────────────────────────────
+      routerConfig: router,
     );
   }
 }

@@ -54,8 +54,11 @@ Create a `.env` file in the root:
 FLAVOR=dev
 SUPABASE_URL=your_url
 SUPABASE_ANON_KEY=your_key
+OAUTH_REDIRECT_URL=com.enyx.starter://login-callback
 API_BASE_URL=https://api.example.com
 ```
+
+Copy from `.env.example` and replace with your project values.
 
 ### 2. Run the App
 ```bash

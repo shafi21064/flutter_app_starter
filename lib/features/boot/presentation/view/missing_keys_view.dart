@@ -1,7 +1,7 @@
 // ──────────────────────────────────────────────────────────────
 // lib/features/boot/presentation/view/missing_keys_view.dart
 // PURPOSE : Shown when SUPABASE_URL or SUPABASE_ANON_KEY are
-//           not provided via --dart-define.
+//           not set in .env.
 //           Prevents any Supabase calls and explains what to do.
 // ──────────────────────────────────────────────────────────────
 

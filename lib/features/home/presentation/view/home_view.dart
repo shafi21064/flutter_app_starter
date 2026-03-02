@@ -13,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:enyx_starter/core/config/env.dart';
 import 'package:enyx_starter/core/routing/app_router.dart';
+import 'package:enyx_starter/core/ui/app_bottom_nav.dart';
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_toast.dart';
 import 'package:enyx_starter/core/utils/app_sizes.dart';
@@ -35,17 +36,11 @@ class HomeView extends ConsumerWidget {
     final displayName =
         user?.userMetadata?['full_name'] as String? ??
             user?.email ??
-            'User';
+            l10n.defaultUserName;
 
     return AppScaffold(
       title: l10n.appTitle,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          tooltip: l10n.settings,
-          onPressed: () => context.push(AppRoutes.settings),
-        ),
-      ],
+      bottomNavigationBar: const AppBottomNav(currentTab: AppBottomNavTab.home),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(AppSizes.pagePadding),
@@ -82,7 +77,7 @@ class HomeView extends ConsumerWidget {
                 OutlinedButton.icon(
                   onPressed: () => context.push(AppRoutes.profilePath(user.id)),
                   icon: const Icon(Icons.person),
-                  label: const Text('Profile'),
+                  label: Text(l10n.profile),
                 ),
                 Gap(AppSizes.spacingMd),
               ],

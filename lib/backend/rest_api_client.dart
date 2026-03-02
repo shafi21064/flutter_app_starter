@@ -41,7 +41,7 @@ class RestApiClient {
     if (baseUrl.isEmpty) {
       Log.w(
         'RestApiClient initialized with empty API base URL. '
-        'Set API_BASE_URL via --dart-define or .env.',
+        'Set API_BASE_URL in .env.',
       );
     }
 

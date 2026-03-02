@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Enyx Starter';
 
   @override
+  String get home => 'Home';
+
+  @override
   String get login => 'Log In';
 
   @override
@@ -56,6 +59,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resetLinkSent =>
       'A password-reset link has been sent to your email.';
+
+  @override
+  String get verifyEmailAfterRegister =>
+      'Registration successful. Please check your email and verify your account before logging in.';
 
   @override
   String get settings => 'Settings';
@@ -108,7 +115,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get missingKeysBody =>
-      'Supabase URL and/or Anon Key are not set.\n\nPass them via --dart-define:\n  --dart-define=SUPABASE_URL=https://xxx.supabase.co\n  --dart-define=SUPABASE_ANON_KEY=your-anon-key';
+      'Supabase URL and/or Anon Key are not set.\n\nSet them in your .env file:\n  SUPABASE_URL=https://xxx.supabase.co\n  SUPABASE_ANON_KEY=your-anon-key';
 
   @override
   String get retry => 'Retry';
@@ -118,6 +125,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknownError => 'Something went wrong. Please try again.';
+
+  @override
+  String get defaultUserName => 'User';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get profileNoBio => 'No bio yet';
+
+  @override
+  String get profileBioHeader => 'BIO';
+
+  @override
+  String get profileMissingUserId => 'Missing user id';
+
+  @override
+  String errorWithMessage(String message) {
+    return 'Error: $message';
+  }
+
+  @override
+  String get configureIapHint =>
+      'Configure enableIap via feature_flags.dart or remote config.';
+
+  @override
+  String get devTools => 'Dev Tools';
+
+  @override
+  String get simulateOffline => 'Simulate Offline';
+
+  @override
+  String get currentlyOnline => 'Currently online';
+
+  @override
+  String get currentlyOffline => 'Currently offline';
 
   @override
   String welcomeUser(String name) {

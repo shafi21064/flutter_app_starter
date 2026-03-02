@@ -2,6 +2,7 @@
   "@@locale": "en",
 
   "appTitle": "Enyx Starter",
+  "home": "Home",
 
   "login": "Log In",
   "register": "Register",
@@ -18,6 +19,7 @@
   "alreadyHaveAccount": "Already have an account? Log In",
   "sendResetLink": "Send Reset Link",
   "resetLinkSent": "A password-reset link has been sent to your email.",
+  "verifyEmailAfterRegister": "Registration successful. Please check your email and verify your account before logging in.",
 
   "settings": "Settings",
   "theme": "Theme",
@@ -37,11 +39,27 @@
   "offlineActionBlocked": "This action requires an internet connection.",
 
   "missingKeysTitle": "Configuration Required",
-  "missingKeysBody": "Supabase URL and/or Anon Key are not set.\n\nPass them via --dart-define:\n  --dart-define=SUPABASE_URL=https://xxx.supabase.co\n  --dart-define=SUPABASE_ANON_KEY=your-anon-key",
+  "missingKeysBody": "Supabase URL and/or Anon Key are not set.\n\nSet them in your .env file:\n  SUPABASE_URL=https://xxx.supabase.co\n  SUPABASE_ANON_KEY=your-anon-key",
 
   "retry": "Retry",
   "noData": "Nothing here yet.",
   "unknownError": "Something went wrong. Please try again.",
+  "defaultUserName": "User",
+  "profile": "Profile",
+  "profileNoBio": "No bio yet",
+  "profileBioHeader": "BIO",
+  "profileMissingUserId": "Missing user id",
+  "errorWithMessage": "Error: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "configureIapHint": "Configure enableIap via feature_flags.dart or remote config.",
+  "devTools": "Dev Tools",
+  "simulateOffline": "Simulate Offline",
+  "currentlyOnline": "Currently online",
+  "currentlyOffline": "Currently offline",
   "welcomeUser": "Welcome, {name}!",
   "@welcomeUser": {
     "placeholders": {

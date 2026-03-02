@@ -23,6 +23,7 @@ class AppScaffold extends StatelessWidget {
     this.title,
     this.actions,
     this.floatingActionButton,
+    this.bottomNavigationBar,
     this.showAppBar = true,
   });
 
@@ -30,6 +31,7 @@ class AppScaffold extends StatelessWidget {
   final String? title;
   final List<Widget>? actions;
   final Widget? floatingActionButton;
+  final Widget? bottomNavigationBar;
   final bool showAppBar;
 
   @override
@@ -57,6 +59,7 @@ class AppScaffold extends StatelessWidget {
                 child: body,
               ),
             ),
+            if (bottomNavigationBar != null) ...[bottomNavigationBar!],
           ],
         ),
       ),

@@ -5,36 +5,82 @@
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../backend/rest_api_client.dart';
-import '../../../../core/api/api_endpoints.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../../core/result/result.dart';
 import '../../domain/entities/profile_entity.dart';
 import '../../domain/repositories/profile_repository.dart';
-import '../models/profile_dto.dart';
 
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-  return ProfileRepositoryImpl(ref.read(restApiClientProvider));
+  return ProfileRepositoryImpl();
 });
 
 class ProfileRepositoryImpl implements ProfileRepository {
-  ProfileRepositoryImpl(this._client);
-  final RestApiClient _client;
+  ProfileRepositoryImpl();
 
-  @override
-  Future<Result<ProfileEntity>> getProfile(String userId) async {
-    final result = await _client.get<Map<String, dynamic>>(
-      ApiEndpoints.userDetails(userId),
-    );
+  GoTrueClient get _auth => Supabase.instance.client.auth;
 
-    return result.when(
-      success: (data) => Success(ProfileDto.fromJson(data).toEntity()),
-      failure: (f) => Failure(f.message, kind: f.kind, exception: f.exception),
+  ProfileEntity _mapUserToProfile(User user) {
+    final data = user.userMetadata ?? const <String, dynamic>{};
+    return ProfileEntity(
+      id: user.id,
+      name: (data['full_name'] as String?) ??
+          (data['name'] as String?) ??
+          user.email ??
+          'User',
+      email: user.email ?? '',
+      bio: data['bio'] as String?,
+      avatarUrl: data['avatar_url'] as String?,
     );
   }
 
   @override
+  Future<Result<ProfileEntity>> getProfile(String userId) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return const Failure('Not signed in', kind: FailureKind.auth);
+    }
+    if (user.id != userId) {
+      return const Failure(
+        'Cannot access another user profile',
+        kind: FailureKind.auth,
+      );
+    }
+    return Success(_mapUserToProfile(user));
+  }
+
+  @override
   Future<Result<void>> updateProfile(ProfileEntity profile) async {
-    final dto = ProfileDto.fromEntity(profile);
-    return await _client.post<void>(ApiEndpoints.profile, data: dto.toJson());
+    final user = _auth.currentUser;
+    if (user == null) {
+      return const Failure('Not signed in', kind: FailureKind.auth);
+    }
+    if (user.id != profile.id) {
+      return const Failure(
+        'Cannot update another user profile',
+        kind: FailureKind.auth,
+      );
+    }
+
+    try {
+      await _auth.updateUser(
+        UserAttributes(
+          data: <String, dynamic>{
+            'full_name': profile.name,
+            'bio': profile.bio,
+            'avatar_url': profile.avatarUrl,
+          },
+        ),
+      );
+      return const Success(null);
+    } on AuthException catch (e) {
+      return Failure(e.message, kind: FailureKind.auth, exception: e);
+    } catch (e) {
+      return Failure(
+        'Failed to update profile',
+        kind: FailureKind.unknown,
+        exception: e,
+      );
+    }
   }
 }

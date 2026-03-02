@@ -11,8 +11,12 @@ import 'package:flutter/cupertino.dart';
 class AppToast {
   AppToast._();
 
-  static void show(BuildContext context, String message, {String? title}) {
-    showCupertinoDialog(
+  static Future<void> show(
+    BuildContext context,
+    String message, {
+    String? title,
+  }) {
+    return showCupertinoDialog<void>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: title != null ? Text(title) : null,
@@ -29,12 +33,12 @@ class AppToast {
   }
 
   /// Shortcut for error-styled alerts.
-  static void error(BuildContext context, String message) {
-    show(context, message, title: 'Error');
+  static Future<void> error(BuildContext context, String message) {
+    return show(context, message, title: 'Error');
   }
 
   /// Shortcut for success-styled alerts.
-  static void success(BuildContext context, String message) {
-    show(context, message, title: 'Success');
+  static Future<void> success(BuildContext context, String message) {
+    return show(context, message, title: 'Success');
   }
 }
