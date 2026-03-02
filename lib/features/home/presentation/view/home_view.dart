@@ -4,20 +4,18 @@
 //           Shows current user info and sign-out button.
 // ──────────────────────────────────────────────────────────────
 
-import 'package:enyx_starter/core/ui/widgets/liquid_glass/liquid_glass_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:gap/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:enyx_starter/core/config/env.dart';
-import 'package:enyx_starter/core/ui/app_bottom_nav.dart';
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_toast.dart';
 import 'package:enyx_starter/core/utils/app_sizes.dart';
 
-import '../../../../core/ui/widgets/liquid_glass/liquid_glass_widgets.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 
 class HomeView extends ConsumerWidget {
@@ -40,7 +38,6 @@ class HomeView extends ConsumerWidget {
 
     return AppScaffold(
       title: l10n.appTitle,
-      bottomNavigationBar: const AppBottomNav(currentTab: AppBottomNavTab.home),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(AppSizes.pagePadding),
@@ -84,6 +81,7 @@ class HomeView extends ConsumerWidget {
                       leading: const Icon(Icons.person_outline),
                       onTap: () {},
                     ),
+                    Gap(AppSizes.spacingMd),
                     LiquidGlassListTile(
                       title: l10n.settings,
                       leading: const Icon(Icons.settings_outlined),

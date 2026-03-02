@@ -14,12 +14,15 @@
 //   3. Optionally add a redirect guard.
 // ──────────────────────────────────────────────────────────────
 
+import 'package:enyx_starter/features/settings_two/presentation/view/settings_two_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/env.dart';
+import '../ui/app_main_tab_shell.dart';
 import '../../features/auth/presentation/view/forgot_password_view.dart';
 import '../../features/auth/presentation/view/login_view.dart';
 import '../../features/auth/presentation/view/register_view.dart';
@@ -35,10 +38,9 @@ class AppRoutes {
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   static const String home = '/home';
-  static const String profile = '/profile/:userId';
+  static const String profile = '/profile';
   static const String settings = '/settings';
-
-  static String profilePath(String userId) => '/profile/$userId';
+  static const String settingsTwo = '/settings_two';
 }
 
 /// GoRouter provider — watches auth state for reactive redirects.
@@ -73,26 +75,58 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.forgotPassword,
         builder: (_, _) => const ForgotPasswordView(),
       ),
-      GoRoute(
-        path: AppRoutes.home,
-        pageBuilder: (_, state) => const NoTransitionPage(
-          child: HomeView(),
+      ShellRoute(
+        builder: (context, state, child) => AppMainTabShell(
+          currentIndex: liquidTabIndexFromLocation(state.matchedLocation, [
+            AppRoutes.home,
+            AppRoutes.profile,
+            AppRoutes.settings,
+            AppRoutes.settingsTwo
+          ]),
+          onTabTap: (index) {
+            liquidGoToTab(
+              context: context,
+              index: index,
+              tabPaths: const [
+                AppRoutes.home,
+                AppRoutes.profile,
+                AppRoutes.settings,
+                AppRoutes.settingsTwo
+              ],
+            );
+          },
+          child: child,
         ),
-      ),
-      GoRoute(
-        path: AppRoutes.profile,
-        pageBuilder: (_, state) => NoTransitionPage(
-          key: state.pageKey,
-          child: ProfileView(
-            userId: state.pathParameters['userId'] ?? '',
+        routes: [
+          GoRoute(
+            path: AppRoutes.home,
+            pageBuilder: (_, state) => buildLiquidTabTransitionPage(
+              state: state,
+              child: const HomeView(),
+            ),
           ),
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.settings,
-        pageBuilder: (_, state) => const NoTransitionPage(
-          child: SettingsView(),
-        ),
+          GoRoute(
+            path: AppRoutes.profile,
+            pageBuilder: (_, state) => buildLiquidTabTransitionPage(
+              state: state,
+              child: const ProfileView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.settings,
+            pageBuilder: (_, state) => buildLiquidTabTransitionPage(
+              state: state,
+              child: const SettingsView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.settingsTwo,
+            pageBuilder: (_, state) => buildLiquidTabTransitionPage(
+              state: state,
+              child: const SettingsTwoView(),
+            ),
+          ),
+        ],
       ),
     ],
   );

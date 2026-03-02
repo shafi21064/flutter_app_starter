@@ -11,7 +11,6 @@ import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import '../../../../core/theme/theme_controller.dart';
 // import '../../../../core/theme/theme_packs.dart';
 import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/ui/app_bottom_nav.dart';
 import '../../../../core/ui/app_scaffold.dart';
 import '../../../../core/utils/app_sizes.dart';
 import '../controller/settings_controller.dart';
@@ -29,8 +28,6 @@ class SettingsView extends ConsumerWidget {
 
     return AppScaffold(
       title: l10n.settings,
-      bottomNavigationBar:
-          const AppBottomNav(currentTab: AppBottomNavTab.settings),
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: AppSizes.spacingSm),
         children: [

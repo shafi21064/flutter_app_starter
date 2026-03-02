@@ -7,27 +7,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../core/ui/app_bottom_nav.dart';
 import '../../../../core/ui/app_scaffold.dart';
 import '../../../../core/utils/app_sizes.dart';
 import '../controller/profile_controller.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
-  const ProfileView({super.key, required this.userId});
-  final String userId;
+  const ProfileView({super.key, this.userId});
+  final String? userId;
 
   @override
   ConsumerState<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends ConsumerState<ProfileView> {
+  late final String _resolvedUserId;
+
   @override
   void initState() {
     super.initState();
+    _resolvedUserId =
+        widget.userId ?? Supabase.instance.client.auth.currentUser?.id ?? '';
+
     Future.microtask(() {
-      if (widget.userId.isNotEmpty) {
-        ref.read(profileControllerProvider.notifier).loadProfile(widget.userId);
+      if (_resolvedUserId.isNotEmpty) {
+        ref
+            .read(profileControllerProvider.notifier)
+            .loadProfile(_resolvedUserId);
       }
     });
   }
@@ -38,9 +45,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     final l10n = AppLocalizations.of(context)!;
     return AppScaffold(
       title: l10n.profile,
-      bottomNavigationBar:
-          const AppBottomNav(currentTab: AppBottomNavTab.profile),
-      body: widget.userId.isEmpty
+      body: _resolvedUserId.isEmpty
           ? Center(child: Text(l10n.profileMissingUserId))
           : profileState.when(
               loading: () => const Center(child: CupertinoActivityIndicator()),
