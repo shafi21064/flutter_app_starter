@@ -30,25 +30,25 @@ class ThemePack {
 }
 
 // ── Glass Light ──────────────────────────────────────────────
-const _glassLightColors = AppColorTokens(
-  primary: Color(0xFF6C63FF),
-  onPrimary: Colors.white,
-  secondary: Color(0xFF6C63FF),
-  surface: Color(0xFFF5F5F7),
-  onSurface: Color(0xFF1D1D1F),
-  background: Color(0xFFFFFFFF),
-  onBackground: Color(0xFF1D1D1F),
-  error: Color(0xFFE53935),
-  onError: Colors.white,
-  card: Color(0xFFFFFFFF),
-  divider: Color(0xFFE0E0E0),
-  disabled: Color(0xFFBDBDBD),
-  shadow: Color(0x1A000000),
-  success: Color(0xFF43A047),
-);
+// const _glassLightColors = AppColorTokens(
+//   primary: Color(0xFF6C63FF),
+//   onPrimary: Colors.white,
+//   secondary: Color(0xFF6C63FF),
+//   surface: Color(0xFFF5F5F7),
+//   onSurface: Color(0xFF1D1D1F),
+//   background: Color(0xFFFFFFFF),
+//   onBackground: Color(0xFF1D1D1F),
+//   error: Color(0xFFE53935),
+//   onError: Colors.white,
+//   card: Color(0xFFFFFFFF),
+//   divider: Color(0xFFE0E0E0),
+//   disabled: Color(0xFFBDBDBD),
+//   shadow: Color(0x1A000000),
+//   success: Color(0xFF43A047),
+// );
 
-CupertinoThemeData _glassLightCupertino(String? fontFamily) =>
-    _buildCupertinoTheme(_glassLightColors, Brightness.light, fontFamily);
+// CupertinoThemeData _glassLightCupertino(String? fontFamily) =>
+//     _buildCupertinoTheme(_glassLightColors, Brightness.light, fontFamily);
 
 // ── Glass Dark ───────────────────────────────────────────────
 const _glassDarkColors = AppColorTokens(
@@ -72,25 +72,25 @@ CupertinoThemeData _glassDarkCupertino(String? fontFamily) =>
     _buildCupertinoTheme(_glassDarkColors, Brightness.dark, fontFamily);
 
 // ── Emerald ──────────────────────────────────────────────────
-const _emeraldColors = AppColorTokens(
-  primary: Color(0xFF00C853),
-  onPrimary: Colors.white,
-  secondary: Color(0xFF00B0FF),
-  surface: Color(0xFF1B2631),
-  onSurface: Color(0xFFECF0F1),
-  background: Color(0xFF0D1B2A),
-  onBackground: Color(0xFFECF0F1),
-  error: Color(0xFFFF5252),
-  onError: Colors.white,
-  card: Color(0xFF1E3044),
-  divider: Color(0xFF2C3E50),
-  disabled: Color(0xFF546E7A),
-  shadow: Color(0x33000000),
-  success: Color(0xFF00E676),
-);
+// const _emeraldColors = AppColorTokens(
+//   primary: Color(0xFF00C853),
+//   onPrimary: Colors.white,
+//   secondary: Color(0xFF00B0FF),
+//   surface: Color(0xFF1B2631),
+//   onSurface: Color(0xFFECF0F1),
+//   background: Color(0xFF0D1B2A),
+//   onBackground: Color(0xFFECF0F1),
+//   error: Color(0xFFFF5252),
+//   onError: Colors.white,
+//   card: Color(0xFF1E3044),
+//   divider: Color(0xFF2C3E50),
+//   disabled: Color(0xFF546E7A),
+//   shadow: Color(0x33000000),
+//   success: Color(0xFF00E676),
+// );
 
-CupertinoThemeData _emeraldCupertino(String? fontFamily) =>
-    _buildCupertinoTheme(_emeraldColors, Brightness.dark, fontFamily);
+// CupertinoThemeData _emeraldCupertino(String? fontFamily) =>
+//     _buildCupertinoTheme(_emeraldColors, Brightness.dark, fontFamily);
 
 // ── Builders ──────────────────────────────────────────────────
 

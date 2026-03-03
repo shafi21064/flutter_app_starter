@@ -10,6 +10,7 @@ import 'package:flutter/material.dart'
     show Icons; // Fallback for some Material icons if needed
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +21,6 @@ import 'package:enyx_starter/core/ui/app_divider.dart';
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_social_button.dart';
 import 'package:enyx_starter/core/ui/app_toast.dart';
-import 'package:enyx_starter/core/ui/widgets/enyx_text_field.dart';
 import 'package:enyx_starter/core/utils/app_sizes.dart';
 import 'package:enyx_starter/core/utils/app_colors.dart';
 import 'package:enyx_starter/core/utils/haptic_service.dart';
@@ -76,7 +76,7 @@ class LoginView extends HookConsumerWidget {
                 ),
                 Gap(AppSizes.spacingXl),
                 if (flags.enableEmailPasswordLogin) ...[
-                  EnyxTextField(
+                  LiquidGlassInput(
                     controller: emailController,
                     placeholder: l10n.email,
                     keyboardType: TextInputType.emailAddress,
@@ -86,7 +86,7 @@ class LoginView extends HookConsumerWidget {
                     ),
                   ),
                   Gap(AppSizes.spacingMd),
-                  EnyxTextField(
+                  LiquidGlassInput(
                     controller: passwordController,
                     placeholder: l10n.password,
                     obscureText: true,
@@ -110,9 +110,9 @@ class LoginView extends HookConsumerWidget {
                   Gap(AppSizes.spacingMd),
                   isLoading.value
                       ? const Center(child: CupertinoActivityIndicator())
-                      : CupertinoButton.filled(
+                      : LiquidGlassButton(
                           onPressed: login,
-                          child: Text(l10n.login),
+                          label: l10n.login,
                         ),
                   Gap(AppSizes.spacingMd),
                   CupertinoButton(

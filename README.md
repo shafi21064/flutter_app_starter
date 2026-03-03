@@ -69,6 +69,7 @@ flutter run
 - Main tabs are inside a shell route
 - Bottom nav stays fixed while tab content transitions
 - Route paths are centralized in `lib/core/routing/app_router.dart`
+- Shell UI wrapper lives in `lib/core/ui/app_main_tab_shell.dart`
 
 ## Liquid UI Usage
 
@@ -84,6 +85,29 @@ Current local path setup:
 glovex_liquid_ui:
   path: /Users/mac/enyx/packages/enyx_liquid_ui
 ```
+
+### Router Helpers Used
+
+`app_router.dart` uses helpers from `glovex_liquid_ui`:
+
+- `liquidTabIndexFromLocation(...)`
+- `liquidGoToTab(...)`
+- `buildLiquidTabTransitionPage(...)`
+
+These helpers keep tab-index mapping, tab navigation, and tab transition behavior consistent.
+
+## Add a New Tab
+
+When adding a new tab, update all 4 places together:
+
+1. Add route path constant in `AppRoutes` (`lib/core/routing/app_router.dart`)
+2. Add tab path in both helper arrays passed to:
+   - `liquidTabIndexFromLocation(...)`
+   - `liquidGoToTab(...)`
+3. Add `GoRoute` entry under the shell route
+4. Add one item in `AppMainTabShell` (`LiquidGlassBottomNavItem`)
+
+If tab path prefixes overlap (example: `/settings` and `/settings_two`), keep the specific route mapped as a separate tab path and verify activator behavior after full restart.
 
 ## Useful Commands
 

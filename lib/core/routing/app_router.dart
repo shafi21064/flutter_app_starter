@@ -14,7 +14,6 @@
 //   3. Optionally add a redirect guard.
 // ──────────────────────────────────────────────────────────────
 
-import 'package:enyx_starter/features/settings_two/presentation/view/settings_two_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
@@ -40,7 +39,6 @@ class AppRoutes {
   static const String home = '/home';
   static const String profile = '/profile';
   static const String settings = '/settings';
-  static const String settingsTwo = '/settings_two';
 }
 
 /// GoRouter provider — watches auth state for reactive redirects.
@@ -81,7 +79,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             AppRoutes.home,
             AppRoutes.profile,
             AppRoutes.settings,
-            AppRoutes.settingsTwo
           ]),
           onTabTap: (index) {
             liquidGoToTab(
@@ -91,7 +88,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 AppRoutes.home,
                 AppRoutes.profile,
                 AppRoutes.settings,
-                AppRoutes.settingsTwo
               ],
             );
           },
@@ -117,13 +113,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             pageBuilder: (_, state) => buildLiquidTabTransitionPage(
               state: state,
               child: const SettingsView(),
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.settingsTwo,
-            pageBuilder: (_, state) => buildLiquidTabTransitionPage(
-              state: state,
-              child: const SettingsTwoView(),
             ),
           ),
         ],

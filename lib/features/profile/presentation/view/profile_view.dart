@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
+import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/ui/app_scaffold.dart';
@@ -86,12 +87,8 @@ class _BioSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
+    return LiquidGlassCard(
       padding: EdgeInsets.all(AppSizes.spacingMd),
-      decoration: BoxDecoration(
-        color: CupertinoColors.systemFill,
-        borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

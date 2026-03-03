@@ -58,7 +58,7 @@ dependencies:
   cached_network_image: ^3.4.1
   skeletonizer: ^2.1.3
   google_fonts: ^6.2.1
-  glovex_liquid_ui:
+  glovex_liquid_ui: 
     path: /Users/mac/enyx/packages/enyx_liquid_ui
 
 dev_dependencies:

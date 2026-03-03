@@ -72,6 +72,7 @@ class HomeView extends ConsumerWidget {
               Gap(AppSizes.spacingXl),
               if (user != null) ...[
                 LiquidGlassSection(
+                  blurMode: LiquidBlurMode.real,
                   title: l10n.profile,
                   subtitle: l10n.welcomeUser(displayName),
                   children: [
@@ -86,7 +87,7 @@ class HomeView extends ConsumerWidget {
                       title: l10n.settings,
                       leading: const Icon(Icons.settings_outlined),
                       onTap: () {},
-                    ),
+                    ),  
                   ],
                 ),
                 Gap(AppSizes.spacingMd),
