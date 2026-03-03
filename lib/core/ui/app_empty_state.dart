@@ -4,7 +4,7 @@
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import '../utils/app_sizes.dart';
 
@@ -31,7 +31,7 @@ class AppEmptyState extends StatelessWidget {
               size: AppSizes.iconXl,
               color: theme.disabledColor,
             ),
-            Gap(AppSizes.spacingMd),
+            Gap.h16,
             Text(
               message ?? l10n.noData,
               textAlign: TextAlign.center,

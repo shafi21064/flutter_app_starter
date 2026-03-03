@@ -4,7 +4,7 @@
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import '../utils/app_sizes.dart';
 
@@ -35,14 +35,14 @@ class AppErrorView extends StatelessWidget {
               size: AppSizes.iconLg,
               color: theme.colorScheme.error,
             ),
-            Gap(AppSizes.spacingMd),
+            Gap.h16,
             Text(
               message,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge,
             ),
             if (onRetry != null) ...[
-              Gap(AppSizes.spacingLg),
+              Gap.h24,
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),

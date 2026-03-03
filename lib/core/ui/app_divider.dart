@@ -12,10 +12,7 @@ class AppDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      color: CupertinoColors.separator,
-    );
+    return Container(height: 1, color: CupertinoColors.separator);
   }
 }
 
@@ -34,9 +31,9 @@ class AppDividerWithText extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSizes.spacingSm),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: CupertinoColors.systemGrey,
-              fontSize: 12,
+              fontSize: AppSizes.captionSize,
               fontWeight: FontWeight.w500,
             ),
           ),

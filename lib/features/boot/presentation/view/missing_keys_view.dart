@@ -6,9 +6,10 @@
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 
+import 'package:enyx_starter/core/config/env_validation.dart';
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/utils/app_sizes.dart';
 
@@ -19,6 +20,7 @@ class MissingKeysView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final issues = EnvValidation.collectIssues();
 
     return AppScaffold(
       title: l10n.missingKeysTitle,
@@ -33,18 +35,55 @@ class MissingKeysView extends StatelessWidget {
                 size: AppSizes.iconXl,
                 color: theme.colorScheme.error,
               ),
-              Gap(AppSizes.spacingLg),
+              Gap.h24,
               Text(
                 l10n.missingKeysTitle,
                 style: theme.textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
-              Gap(AppSizes.spacingMd),
+              Gap.h16,
               Text(
                 l10n.missingKeysBody,
                 style: theme.textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
+              if (issues.isNotEmpty) ...[
+                Gap.h24,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Configuration checks',
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ),
+                Gap.h12,
+                ...issues.map(
+                  (issue) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          issue.severity == EnvIssueSeverity.error
+                              ? Icons.error_outline
+                              : Icons.warning_amber_outlined,
+                          size: AppSizes.subheadingSize,
+                          color: issue.severity == EnvIssueSeverity.error
+                              ? theme.colorScheme.error
+                              : theme.colorScheme.secondary,
+                        ),
+                        Gap.w8,
+                        Expanded(
+                          child: Text(
+                            issue.message,
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

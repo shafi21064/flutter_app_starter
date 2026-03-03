@@ -5,7 +5,7 @@
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_sizes.dart';
 
@@ -44,7 +44,7 @@ class AppLoadingOverlay extends StatelessWidget {
                 children: [
                   const CircularProgressIndicator(),
                   if (message != null) ...[
-                    Gap(AppSizes.spacingMd),
+                    Gap.h16,
                     Text(message!),
                   ],
                 ],

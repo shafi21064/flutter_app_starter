@@ -15,11 +15,14 @@
 //   final result = await client.get<Map>('/users/1');
 // ──────────────────────────────────────────────────────────────
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/config/env.dart';
 import '../core/logging/log.dart';
+import '../core/result/failure_mapper.dart';
 import '../core/result/result.dart';
 
 /// Riverpod provider for the REST API client.
@@ -30,13 +33,15 @@ final restApiClientProvider = Provider<RestApiClient>((ref) {
 class RestApiClient {
   RestApiClient() {
     final baseUrl = Env.apiBaseUrl;
-    _dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      // Do NOT set a global content-type – let Dio infer it for
-      // multipart/form-data uploads.
-    ));
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15),
+        // Do NOT set a global content-type – let Dio infer it for
+        // multipart/form-data uploads.
+      ),
+    );
 
     if (baseUrl.isEmpty) {
       Log.w(
@@ -46,12 +51,16 @@ class RestApiClient {
     }
 
     if (Env.enableHttpLogs) {
-      _dio.interceptors.add(LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        logPrint: (obj) => Log.d(obj.toString()),
-      ));
+      _dio.interceptors.add(
+        LogInterceptor(
+          requestBody: true,
+          responseBody: true,
+          logPrint: (obj) => Log.d(obj.toString()),
+        ),
+      );
     }
+
+    _dio.interceptors.add(_RetryInterceptor(_dio));
   }
 
   late final Dio _dio;
@@ -63,11 +72,13 @@ class RestApiClient {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
   }) async {
-    return _request(() => _dio.get<T>(
-          path,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.get<T>(
+        path,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+      ),
+    );
   }
 
   Future<Result<T>> post<T>(
@@ -75,11 +86,9 @@ class RestApiClient {
     Object? data,
     CancelToken? cancelToken,
   }) async {
-    return _request(() => _dio.post<T>(
-          path,
-          data: data,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.post<T>(path, data: data, cancelToken: cancelToken),
+    );
   }
 
   Future<Result<T>> put<T>(
@@ -87,11 +96,9 @@ class RestApiClient {
     Object? data,
     CancelToken? cancelToken,
   }) async {
-    return _request(() => _dio.put<T>(
-          path,
-          data: data,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.put<T>(path, data: data, cancelToken: cancelToken),
+    );
   }
 
   Future<Result<T>> delete<T>(
@@ -99,30 +106,31 @@ class RestApiClient {
     Object? data,
     CancelToken? cancelToken,
   }) async {
-    return _request(() => _dio.delete<T>(
-          path,
-          data: data,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.delete<T>(path, data: data, cancelToken: cancelToken),
+    );
   }
 
   // ── Helpers ────────────────────────────────────────────────
 
-  Future<Result<T>> _request<T>(
-      Future<Response<T>> Function() request) async {
+  Future<Result<T>> _request<T>(Future<Response<T>> Function() request) async {
     try {
       final response = await request();
       return Success(response.data as T);
     } on DioException catch (e) {
+      final mapped = FailureMapper.fromException<T>(e);
       return Failure(
-        _mapDioError(e),
-        kind: _mapKind(e),
+        mapped.message.isNotEmpty ? mapped.message : _mapDioError(e),
+        kind: mapped.kind == FailureKind.unknown ? _mapKind(e) : mapped.kind,
         exception: e,
       );
     } catch (e, st) {
       Log.e('REST request failed', error: e, stack: st);
-      return Failure('Unexpected network error',
-          kind: FailureKind.unknown, exception: e);
+      return Failure(
+        'Unexpected network error',
+        kind: FailureKind.unknown,
+        exception: e,
+      );
     }
   }
 
@@ -149,5 +157,43 @@ class RestApiClient {
       return FailureKind.offline;
     }
     return FailureKind.server;
+  }
+}
+
+class _RetryInterceptor extends Interceptor {
+  _RetryInterceptor(this._dio);
+
+  final Dio _dio;
+
+  static const int _maxRetryAttempts = 2;
+
+  @override
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
+    final options = err.requestOptions;
+    final retryCount = (options.extra['retry_count'] as int?) ?? 0;
+
+    if (!_shouldRetry(err) || retryCount >= _maxRetryAttempts) {
+      return handler.next(err);
+    }
+
+    options.extra['retry_count'] = retryCount + 1;
+    final delayMs = 250 * (retryCount + 1);
+    await Future<void>.delayed(Duration(milliseconds: delayMs));
+
+    try {
+      final response = await _dio.fetch(options);
+      handler.resolve(response);
+    } on DioException catch (e) {
+      handler.next(e);
+    }
+  }
+
+  bool _shouldRetry(DioException err) {
+    return err.type == DioExceptionType.connectionError ||
+        err.type == DioExceptionType.connectionTimeout ||
+        err.type == DioExceptionType.receiveTimeout;
   }
 }

@@ -68,27 +68,34 @@ class DeepLinkService {
     );
 
     // Also check the initial / cold-start link.
-    appLinks.getInitialLink().then((uri) {
-      if (uri != null) {
-        Log.i('Initial deep link: $uri');
-        _handleLink(uri);
-      }
-    }).catchError((Object e) {
-      Log.e('Failed to get initial deep link', error: e);
-    });
+    appLinks
+        .getInitialLink()
+        .then((uri) {
+          if (uri != null) {
+            Log.i('Initial deep link: $uri');
+            _handleLink(uri);
+          }
+        })
+        .catchError((Object e) {
+          Log.e('Failed to get initial deep link', error: e);
+        });
     _isListening = true;
   }
 
   Future<void> _handleLink(Uri uri) async {
+    if (!Env.hasSupabaseKeys) return;
+
     try {
       // Supabase SDK will parse the fragment/query for tokens.
       await Supabase.instance.client.auth.getSessionFromUrl(uri);
-    } on AuthException catch (e) {
-      // Common in email-verification flows when no PKCE flow state exists.
-      if (e.toString().contains('flow_state_not_found')) {
-        Log.w('DeepLinkService: ignored flow_state_not_found for uri: $uri');
+    } on AuthApiException catch (e) {
+      // Common for confirm-email links where PKCE state is absent.
+      if (e.code == 'flow_state_not_found') {
+        Log.i('DeepLinkService: ignored confirm-link without PKCE state.');
         return;
       }
+      Log.e('Supabase deep-link auth API exception', error: e);
+    } on AuthException catch (e) {
       Log.e('Supabase deep-link auth exception', error: e);
     } catch (e, st) {
       Log.e('Supabase deep-link handling failed', error: e, stack: st);

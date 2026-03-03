@@ -5,10 +5,7 @@ import 'package:enyx_starter/core/result/result.dart';
 import 'package:enyx_starter/features/auth/presentation/controller/auth_controller.dart';
 
 class _FakeAuthService extends AuthService {
-  _FakeAuthService(
-    super.ref, {
-    required this.onSignInWithGoogle,
-  });
+  _FakeAuthService(super.ref, {required this.onSignInWithGoogle});
 
   final Future<Result<void>> Function() onSignInWithGoogle;
 
@@ -41,7 +38,7 @@ void main() {
       expect(container.read(authLoadingProvider), isFalse);
     });
 
-    test('resets loading even when service throws', () async {
+    test('maps throw to Failure and resets loading', () async {
       final container = ProviderContainer(
         overrides: [
           authServiceProvider.overrideWith(
@@ -61,7 +58,8 @@ void main() {
       final future = controller.signInWithGoogle();
       expect(container.read(authLoadingProvider), isTrue);
 
-      await expectLater(future, throwsException);
+      final result = await future;
+      expect(result.isFailure, isTrue);
       expect(container.read(authLoadingProvider), isFalse);
     });
   });

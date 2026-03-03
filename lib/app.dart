@@ -6,15 +6,14 @@
 // ──────────────────────────────────────────────────────────────
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' show Brightness, DefaultTextStyle, Theme, ThemeData;
+import 'package:flutter/material.dart' show Brightness, DefaultTextStyle, Theme;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 
 import 'core/config/env.dart';
-import 'core/theme/app_fonts.dart';
-import 'core/theme/theme_controller.dart';
-import 'core/utils/app_sizes.dart';
+import 'core/theme/app_theme_state.dart';
 import 'core/localization/locale_controller.dart';
 import 'core/routing/app_router.dart';
 import 'main.dart' show startPostLaunchServices;
@@ -40,21 +39,14 @@ class _EnyxStarterAppState extends ConsumerState<EnyxStarterApp> {
   Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeProvider);
-    final themeData = ref.watch(themeDataProvider);
-    final fontKey = ref.watch(fontFamilyProvider);
-    final fontFamily = AppTypography.getFontFamily(fontKey);
-    final width = MediaQuery.sizeOf(context).width;
-
-    // Update global scale from MediaQuery to avoid mutating layout state
-    // during RenderLayoutBuilder.performLayout.
-    AppSizes.updateScale(width);
+    final themeState = ref.watch(appThemeStateProvider);
 
     return CupertinoApp.router(
       title: 'Enyx Starter${Env.appNameSuffix}',
       debugShowCheckedModeBanner: !Env.isProd,
 
       // ── Theme ────────────────────────────────────────────
-      theme: themeData,
+      theme: themeState.cupertino,
 
       // ── Locale ───────────────────────────────────────────
       locale: locale,
@@ -69,18 +61,19 @@ class _EnyxStarterAppState extends ConsumerState<EnyxStarterApp> {
       // ── Router ───────────────────────────────────────────
       routerConfig: router,
       builder: (context, child) {
-        final brightness = themeData.brightness ?? Brightness.dark;
-        final materialTheme = ThemeData(
-          brightness: brightness,
-          fontFamily: fontFamily,
-        );
-
         return Theme(
-          data: materialTheme,
+          data: themeState.material.copyWith(
+            extensions: [
+              ...themeState.material.extensions.values.where(
+                (e) => e is! LiquidGlassTheme,
+              ),
+              themeState.liquid,
+            ],
+          ),
           child: DefaultTextStyle(
             style: TextStyle(
-              fontFamily: fontFamily,
-              color: brightness == Brightness.dark
+              fontFamily: themeState.fontFamily,
+              color: themeState.brightness == Brightness.dark
                   ? const Color(0xFFE8E8ED)
                   : const Color(0xFF1D1D1F),
             ),

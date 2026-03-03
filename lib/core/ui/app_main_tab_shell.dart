@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 
 import '../localization/l10n/app_localizations.dart';
+import '../routing/app_tabs.dart';
 
 class AppMainTabShell extends StatelessWidget {
   const AppMainTabShell({
@@ -23,17 +24,14 @@ class AppMainTabShell extends StatelessWidget {
       currentIndex: currentIndex,
       onTap: onTabTap,
       routerChild: child,
-      items: [
-        LiquidGlassBottomNavItem(icon: CupertinoIcons.home, label: l10n.home),
-        LiquidGlassBottomNavItem(
-          icon: CupertinoIcons.person,
-          label: l10n.profile,
-        ),
-        LiquidGlassBottomNavItem(
-          icon: CupertinoIcons.settings,
-          label: l10n.settings,
-        ),
-      ],
+      items: appTabSpecs
+          .map(
+            (tab) => LiquidGlassBottomNavItem(
+              icon: tab.icon,
+              label: tab.labelBuilder(l10n),
+            ),
+          )
+          .toList(),
       background: Image.asset("assets/images/themes/bg.jpg", fit: BoxFit.cover),
     );
   }

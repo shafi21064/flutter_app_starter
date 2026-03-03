@@ -8,7 +8,7 @@ import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_toast.dart';
@@ -63,7 +63,7 @@ class ForgotPasswordView extends HookConsumerWidget {
                     style: theme.textTheme.textStyle,
                     textAlign: TextAlign.center,
                   ),
-                  Gap(AppSizes.spacingXl),
+                  Gap.h32,
                   LiquidGlassInput(
                     controller: emailController,
                     placeholder: l10n.email,
@@ -73,14 +73,14 @@ class ForgotPasswordView extends HookConsumerWidget {
                       color: AppColors.grey,
                     ),
                   ),
-                  Gap(AppSizes.spacingLg),
+                  Gap.h24,
                   isLoading.value
                       ? const Center(child: CupertinoActivityIndicator())
                       : LiquidGlassButton(
                           onPressed: reset,
                           label: l10n.sendResetLink,
                         ),
-                  Gap(AppSizes.spacingMd),
+                  Gap.h16,
                 ],
                 CupertinoButton(
                   onPressed: () {

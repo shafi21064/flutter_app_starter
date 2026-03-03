@@ -24,6 +24,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
 import 'core/config/env.dart';
+import 'core/config/env_validation.dart';
 import 'core/deep_links/deep_link_service.dart';
 import 'core/logging/log.dart';
 import 'core/notifications/notification_service.dart';
@@ -48,6 +49,15 @@ Future<void> main() async {
   }
 
   // ── 0.1 Firebase & Notifications ──────────────────────────
+  final envIssues = EnvValidation.collectIssues();
+  for (final issue in envIssues) {
+    if (issue.severity == EnvIssueSeverity.error) {
+      Log.w('ENV ${issue.code}: ${issue.message}');
+    } else {
+      Log.i('ENV ${issue.code}: ${issue.message}');
+    }
+  }
+
   if (!Env.isDev) {
     try {
       await Firebase.initializeApp();

@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -33,8 +33,8 @@ class HomeView extends ConsumerWidget {
 
     final displayName =
         user?.userMetadata?['full_name'] as String? ??
-            user?.email ??
-            l10n.defaultUserName;
+        user?.email ??
+        l10n.defaultUserName;
 
     return AppScaffold(
       title: l10n.appTitle,
@@ -45,7 +45,7 @@ class HomeView extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CircleAvatar(
-                radius: 40 * AppSizes.scale,
+                radius: AppSizes.avatarRadius,
                 backgroundColor: theme.colorScheme.primary,
                 child: Text(
                   displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
@@ -54,14 +54,14 @@ class HomeView extends ConsumerWidget {
                   ),
                 ),
               ),
-              Gap(AppSizes.spacingMd),
+              Gap.h16,
               Text(
                 l10n.welcomeUser(displayName),
                 style: theme.textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
               if (user?.email != null) ...[
-                Gap(AppSizes.spacingXs),
+                Gap.h4,
                 Text(
                   user!.email!,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -69,7 +69,7 @@ class HomeView extends ConsumerWidget {
                   ),
                 ),
               ],
-              Gap(AppSizes.spacingXl),
+              Gap.h32,
               if (user != null) ...[
                 LiquidGlassSection(
                   blurMode: LiquidBlurMode.real,
@@ -82,22 +82,23 @@ class HomeView extends ConsumerWidget {
                       leading: const Icon(Icons.person_outline),
                       onTap: () {},
                     ),
-                    Gap(AppSizes.spacingMd),
+                    Gap.h16,
                     LiquidGlassListTile(
                       title: l10n.settings,
                       leading: const Icon(Icons.settings_outlined),
                       onTap: () {},
-                    ),  
+                    ),
                   ],
                 ),
-                Gap(AppSizes.spacingMd),
+                Gap.h16,
               ],
               LiquidGlassButton(
                 label: l10n.signOut,
                 leading: const Icon(Icons.logout),
                 onPressed: () async {
-                  final result =
-                      await ref.read(authControllerProvider).signOut();
+                  final result = await ref
+                      .read(authControllerProvider)
+                      .signOut();
                   if (!context.mounted) return;
                   result.when(
                     success: (_) {},

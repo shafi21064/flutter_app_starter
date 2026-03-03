@@ -21,6 +21,9 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/env.dart';
+import '../config/env_validation.dart';
+import 'app_routes.dart';
+import 'app_tabs.dart';
 import '../ui/app_main_tab_shell.dart';
 import '../../features/auth/presentation/view/forgot_password_view.dart';
 import '../../features/auth/presentation/view/login_view.dart';
@@ -29,17 +32,6 @@ import '../../features/boot/presentation/view/missing_keys_view.dart';
 import '../../features/home/presentation/view/home_view.dart';
 import '../../features/profile/presentation/view/profile_view.dart';
 import '../../features/settings/presentation/view/settings_view.dart';
-
-/// Named route paths for type-safe navigation.
-class AppRoutes {
-  static const String missingKeys = '/missing-keys';
-  static const String login = '/login';
-  static const String register = '/register';
-  static const String forgotPassword = '/forgot-password';
-  static const String home = '/home';
-  static const String profile = '/profile';
-  static const String settings = '/settings';
-}
 
 /// GoRouter provider — watches auth state for reactive redirects.
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -54,7 +46,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ? Supabase.instance.client.auth.currentSession != null
           : false;
       return appRedirectLogic(
-        hasSupabaseKeys: Env.hasSupabaseKeys,
+        hasSupabaseKeys: Env.hasSupabaseKeys && !EnvValidation.hasBlockingIssue,
         isLoggedIn: isLoggedIn,
         matchedLocation: state.matchedLocation,
       );
@@ -76,19 +68,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ShellRoute(
         builder: (context, state, child) => AppMainTabShell(
           currentIndex: liquidTabIndexFromLocation(state.matchedLocation, [
-            AppRoutes.home,
-            AppRoutes.profile,
-            AppRoutes.settings,
+            ...appTabSpecs.map((tab) => tab.route),
           ]),
           onTabTap: (index) {
             liquidGoToTab(
               context: context,
               index: index,
-              tabPaths: const [
-                AppRoutes.home,
-                AppRoutes.profile,
-                AppRoutes.settings,
-              ],
+              tabPaths: appTabSpecs.map((tab) => tab.route).toList(),
             );
           },
           child: child,
@@ -134,7 +120,8 @@ String? appRedirectLogic({
     return null;
   }
 
-  final isOnAuthPage = matchedLocation == AppRoutes.login ||
+  final isOnAuthPage =
+      matchedLocation == AppRoutes.login ||
       matchedLocation == AppRoutes.register ||
       matchedLocation == AppRoutes.forgotPassword;
 

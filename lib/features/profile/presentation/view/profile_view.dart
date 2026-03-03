@@ -5,7 +5,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -57,12 +57,15 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(CupertinoIcons.person_crop_circle_fill, size: 80),
-                    Gap(AppSizes.spacingLg),
+                    Icon(
+                      CupertinoIcons.person_crop_circle_fill,
+                      size: AppSizes.avatarSize,
+                    ),
+                    Gap.h24,
                     Text(
                       profile.name,
-                      style: const TextStyle(
-                        fontSize: 22,
+                      style: TextStyle(
+                        fontSize: AppSizes.headingSmSize,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -70,7 +73,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       profile.email,
                       style: const TextStyle(color: CupertinoColors.systemGrey),
                     ),
-                    Gap(AppSizes.spacingXl),
+                    Gap.h32,
                     _BioSection(bio: profile.bio ?? l10n.profileNoBio),
                   ],
                 ),
@@ -94,9 +97,12 @@ class _BioSection extends ConsumerWidget {
         children: [
           Text(
             l10n.profileBioHeader,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: AppSizes.captionSize,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          Gap(AppSizes.spacingXs),
+          Gap.h4,
           Text(bio),
         ],
       ),

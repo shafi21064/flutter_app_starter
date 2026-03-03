@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:enyx_starter/core/routing/app_router.dart';
+import 'package:enyx_starter/core/routing/app_routes.dart';
 
 void main() {
   group('appRedirectLogic', () {

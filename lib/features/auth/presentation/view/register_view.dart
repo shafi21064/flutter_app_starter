@@ -10,11 +10,11 @@ import 'package:enyx_starter/core/localization/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:glovex_liquid_ui/glovex_liquid_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:gap/gap.dart';
+import 'package:enyx_starter/core/utils/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:enyx_starter/core/config/feature_flags.dart';
-import 'package:enyx_starter/core/routing/app_router.dart';
+import 'package:enyx_starter/core/routing/app_routes.dart';
 import 'package:enyx_starter/core/ui/app_divider.dart';
 import 'package:enyx_starter/core/ui/app_scaffold.dart';
 import 'package:enyx_starter/core/ui/app_social_button.dart';
@@ -71,7 +71,7 @@ class RegisterView extends HookConsumerWidget {
                   style: theme.textTheme.textStyle,
                   textAlign: TextAlign.center,
                 ),
-                Gap(AppSizes.spacingXl),
+                Gap.h32,
                 if (flags.enableEmailPasswordLogin) ...[
                   LiquidGlassInput(
                     controller: nameController,
@@ -81,7 +81,7 @@ class RegisterView extends HookConsumerWidget {
                       color: AppColors.grey,
                     ),
                   ),
-                  Gap(AppSizes.spacingMd),
+                  Gap.h16,
                   LiquidGlassInput(
                     controller: emailController,
                     placeholder: l10n.email,
@@ -91,7 +91,7 @@ class RegisterView extends HookConsumerWidget {
                       color: AppColors.grey,
                     ),
                   ),
-                  Gap(AppSizes.spacingMd),
+                  Gap.h16,
                   LiquidGlassInput(
                     controller: passwordController,
                     placeholder: l10n.password,
@@ -102,20 +102,20 @@ class RegisterView extends HookConsumerWidget {
                       color: AppColors.grey,
                     ),
                   ),
-                  Gap(AppSizes.spacingLg),
+                  Gap.h24,
                   isLoading.value
                       ? const Center(child: CupertinoActivityIndicator())
                       : CupertinoButton.filled(
                           onPressed: register,
                           child: Text(l10n.register),
                         ),
-                  Gap(AppSizes.spacingMd),
+                  Gap.h16,
                 ],
                 if (flags.isGoogleLoginVisible ||
                     flags.isAppleLoginVisible) ...[
                   if (flags.enableEmailPasswordLogin) ...[
                     const AppDividerWithText(text: 'OR'),
-                    Gap(AppSizes.spacingLg),
+                    Gap.h24,
                   ],
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -154,7 +154,7 @@ class RegisterView extends HookConsumerWidget {
                         ),
                     ],
                   ),
-                  Gap(AppSizes.spacingLg),
+                  Gap.h24,
                 ],
                 CupertinoButton(
                   onPressed: () {
